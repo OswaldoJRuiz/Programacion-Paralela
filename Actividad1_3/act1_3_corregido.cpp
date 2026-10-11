@@ -1,50 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h> // Incluye la libreria de tiempo para inicializar la semilla aleatoria
+#include <time.h>
 #include <omp.h>
 
-// Integrantes:
-// Espinoza Hernandez Axel Daniel
-// Martinez Ibarra Alejandro Isaac
-// Munoz Perez Jaime
-// Ruiz Guerrero Oswaldo Josue
-
-class OperacionesArreglos // Define la clase que contiene los metodos de operaciones paralelas
+class OperacionesArreglos 
 {
-public: // Acceso publico para los metodos de la clase
-    void sumarArreglosOpenMP(int* A, int* B, int* R, int tam) // Declaracion del metodo para sumar arreglos
+public:
+    void sumarArreglosOpenMP(int* A, int* B, int* R, int tam) 
     {
-#pragma omp parallel for // Directiva para paralelizar el bucle for entre los hilos disponibles
-        for (int i = 0; i < tam; i++) // Bucle para recorrer cada elemento del arreglo
+#pragma omp parallel for 
+        for (int i = 0; i < tam; i++) 
         {
-            R[i] = A[i] + B[i]; // Almacena la suma de los elementos correspondientes de A y B en R
+            R[i] = A[i] + B[i]; 
         }
     }
 
-    void restarArreglosOpenMP(int* A, int* B, int* R, int tam) // Declaracion del metodo para restar arreglos
+    void restarArreglosOpenMP(int* A, int* B, int* R, int tam) 
     {
-#pragma omp parallel for // Directiva para paralelizar el bucle for
-        for (int i = 0; i < tam; i++) // Bucle para recorrer cada elemento del arreglo
+#pragma omp parallel for 
+        for (int i = 0; i < tam; i++) 
         {
-            R[i] = A[i] - B[i]; // Almacena la resta de los elementos de A menos B en R
+            R[i] = A[i] - B[i]; 
         }
     }
 
-    void multiplicarArreglosOpenMP(int* A, int* B, int* R, int tam) // Declaracion del metodo para multiplicar arreglos
+    void multiplicarArreglosOpenMP(int* A, int* B, int* R, int tam) 
     {
-#pragma omp parallel for // Directiva para paralelizar el bucle for
-        for (int i = 0; i < tam; i++) // Bucle para recorrer cada elemento del arreglo
+#pragma omp parallel for 
+        for (int i = 0; i < tam; i++) 
         {
-            R[i] = A[i] * B[i]; // Almacena la multiplicacion de los elementos correspondientes de A y B en R
+            R[i] = A[i] * B[i]; 
         }
     }
 
-    void cuadradoArregloOpenMP(int* A, int* R, int tam) // Declaracion del metodo para calcular el cuadrado de un arreglo
+    void cuadradoArregloOpenMP(int* A, int* R, int tam) 
     {
-#pragma omp parallel for // Directiva para paralelizar el bucle for
-        for (int i = 0; i < tam; i++) // Bucle para recorrer cada elemento del arreglo
+#pragma omp parallel for 
+        for (int i = 0; i < tam; i++) 
         {
-            R[i] = A[i] * A[i]; // Almacena el cuadrado de cada elemento del arreglo A en R
+            R[i] = A[i] * A[i]; 
         }
     }
 
@@ -129,37 +123,36 @@ public: // Acceso publico para los metodos de la clase
     }
 };
 
-int main() // Funcion principal del programa
+int main()
 {
-    printf("Integrantes:\n"); // Imprime el encabezado de integrantes
+    printf("Integrantes:\n");
     printf("- Espinoza Hernandez Axel Daniel\n");
     printf("- Martinez Ibarra Alejandro Isaac\n");
     printf("- Munoz Perez Jaime\n");
     printf("- Ruiz Guerrero Oswaldo Josue\n\n");
 
-    srand((unsigned int)time(NULL)); // Inicializa la semilla del generador de numeros aleatorios usando la hora actual
-    OperacionesArreglos operaciones; // Crea un objeto de la clase OperacionesArreglos
+    srand((unsigned int)time(NULL));
+    OperacionesArreglos operaciones;
 
-    int tam = 100; // Declara e inicializa la variable del tamaño de arreglos
-    int opcion; // Declara la variable para almacenar la opcion del menu
+    int tam = 100;
+    int opcion;
 
-    printf("Ingresa el tamano de los arreglos (Ej. 100 o 10000000): "); // Solicita al usuario el tamaño inicial
-    scanf("%d", &tam); // Lee el tamaño ingresado por el usuario
+    printf("Ingresa el tamano de los arreglos (Ej. 100 o 10000000): ");
+    scanf("%d", &tam);
 
-    int* A = (int*)malloc(tam * sizeof(int)); // Reserva memoria dinamica para el arreglo A
-    int* B = (int*)malloc(tam * sizeof(int)); // Reserva memoria dinamica para el arreglo B
-    int* R = (int*)malloc(tam * sizeof(int)); // Reserva memoria dinamica para el arreglo de resultados R
+    int* A = (int*)malloc(tam * sizeof(int)); 
+    int* B = (int*)malloc(tam * sizeof(int)); 
+    int* R = (int*)malloc(tam * sizeof(int)); 
 
-    // Llenado inicial: A ascendente y B descendente
-    for (int i = 0; i < tam; i++) // Bucle para inicializar los datos de los arreglos
+    for (int i = 0; i < tam; i++)
     {
-        A[i] = i + 1; // Asigna valores secuenciales ascendentes al arreglo A
-        B[i] = tam - i; // Asigna valores secuenciales descendentes al arreglo B
+        A[i] = i + 1;
+        B[i] = tam - i;
     }
 
-    do // Inicio del bucle para repetir el menu
+    do
     {
-        printf("\n--- MENU ---\n"); // Imprime la cabecera del menu
+        printf("\n--- MENU ---\n");
         printf("1. Llenar arreglos aleatorios\n");
         printf("2. Sumar arreglos\n");
         printf("3. Restar arreglos\n");
@@ -174,30 +167,30 @@ int main() // Funcion principal del programa
         printf("Opcion: ");
         scanf("%d", &opcion);
 
-        switch (opcion) // Evalua la opcion seleccionada
+        switch (opcion)
         {
-        case 1: // Bloque para la opcion de llenar con numeros aleatorios
-            for (int i = 0; i < tam; i++) // Bucle para iterar en todas las posiciones
+        case 1:
+            for (int i = 0; i < tam; i++)
             {
                 A[i] = rand() % 100;
                 B[i] = rand() % 100;
             }
-            printf("\nArreglos rellenados con valores aleatorios exito.\n"); // Notifica la correcta asignacion
-            break; // Finaliza el caso 1
+            printf("\nArreglos rellenados con valores aleatorios exito.\n");
+            break;
 
-        case 2: // Bloque para la opcion de suma
+        case 2:
         {
-            if (tam <= 500) // Verifica si el tamaño es apto para impresion en consola
+            if (tam <= 500)
             {
-                printf("\nArreglo A:\n"); // Imprime el titulo del arreglo A
+                printf("\nArreglo A:\n");
                 for (int i = 0; i < tam; i++) printf("%d ", A[i]);
                 printf("\n\nArreglo B:\n");
                 for (int i = 0; i < tam; i++) printf("%d ", B[i]);
             }
 
-            double inicio = omp_get_wtime(); // Obtiene la marca de tiempo inicial
-            operaciones.sumarArreglosOpenMP(A, B, R, tam); // Llama al metodo de suma paralela
-            double fin = omp_get_wtime(); // Obtiene la marca de tiempo final
+            double inicio = omp_get_wtime();
+            operaciones.sumarArreglosOpenMP(A, B, R, tam);
+            double fin = omp_get_wtime();
 
             if (tam <= 500)
             {
@@ -209,7 +202,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 3: // Bloque para la opcion de resta
+        case 3:
         {
             if (tam <= 500)
             {
@@ -233,7 +226,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 4: // Bloque para la opcion de multiplicacion
+        case 4:
         {
             if (tam <= 500)
             {
@@ -257,7 +250,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 5: // Bloque para la opcion de cuadrado del arreglo A
+        case 5:
         {
             if (tam <= 500)
             {
@@ -279,11 +272,11 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 6: // Bloque para la opcion de cambiar el tamaño de los arreglos
+        case 6:
         {
-            free(A); // Libera la memoria previamente asignada a A
-            free(B); // Libera la memoria previamente asignada a B
-            free(R); // Libera la memoria previamente asignada a R
+            free(A);
+            free(B);
+            free(R);
 
             printf("\nIngresa el nuevo tamano de los arreglos: ");
             scanf("%d", &tam);
@@ -302,7 +295,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 7: // Bloque para la sumatoria del arreglo A
+        case 7:
         {
             long long suma_total = 0;
             double inicio = omp_get_wtime();
@@ -314,7 +307,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 8: // Bloque para el promedio del arreglo A
+        case 8:
         {
             double promedio_res = 0.0;
             double inicio = omp_get_wtime();
@@ -326,7 +319,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 9: // Bloque para el maximo del arreglo A
+        case 9:
         {
             int max_val = 0;
             double inicio = omp_get_wtime();
@@ -338,7 +331,7 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 10: // Bloque para el minimo del arreglo A
+        case 10:
         {
             int min_val = 0;
             double inicio = omp_get_wtime();
@@ -350,24 +343,24 @@ int main() // Funcion principal del programa
             break;
         }
 
-        case 0: // Bloque para salir del programa
+        case 0:
             printf("\nPrograma terminado.\n");
             break;
 
-        default: // Caso cuando la opcion ingresada no existe
+        default:
             printf("\nOpcion invalida.\n");
         }
 
-    } while (opcion != 0); // Termina el bucle al seleccionar 0
+    } while (opcion != 0);
 
-    free(A); // Libera la memoria asignada al arreglo A antes de terminar
-    free(B); // Libera la memoria asignada al arreglo B antes de terminar
-    free(R); // Libera la memoria asignada al arreglo R antes de terminar
+    free(A);
+    free(B);
+    free(R);
 
     printf("- Espinoza Hernandez Axel Daniel\n");
     printf("- Martinez Ibarra Alejandro Isaac\n");
     printf("- Munoz Perez Jaime\n");
     printf("- Ruiz Guerrero Oswaldo Josue\n");
 
-    return 0; // Finaliza el programa retornando cero
+    return 0;
 }
